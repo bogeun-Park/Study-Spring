@@ -11,7 +11,12 @@ public class HelloController {
     }
 	
     @GetMapping("/hello")
-    public String sayHello() {
+    public String hello() {
         return "hello";
+    }
+    
+    @GetMapping("test")
+    public String sayHello() {
+        return "테스트페이지 입니다.";
     }
 }
