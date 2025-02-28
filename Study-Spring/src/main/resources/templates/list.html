@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="/main.css" rel="stylesheet">
+</head>
+<body>
+	<div class="card" th:each="item : ${items}">  <!-- items에 담긴 자료 개수만큼 반복 -->
+		<img src="https://placehold.co/300">
+		<div>
+			<h4 th:text="${item.title}"></h4>
+			<p th:text="${item.price}"></p>
+		</div>
+	</div>
+</body>
+</html>

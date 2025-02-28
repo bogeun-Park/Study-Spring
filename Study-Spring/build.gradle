@@ -22,15 +22,23 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	
-	// 웹 개발 의존성
+	// 웹 개발
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	
 	// 자동 빌드
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-	// thymeleaf
+	// thymeleaf(html 동적 렌더링)
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+	
+	// oracle, jpa
+	implementation 'com.oracle.database.jdbc:ojdbc11:21.9.0.0'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    
+    // lombok(생산성 향상)
+    implementation 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
 }
 
 tasks.named('test') {
