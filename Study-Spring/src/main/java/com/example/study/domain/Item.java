@@ -11,9 +11,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@ToString
 @Getter
 @Setter
+@ToString(excludes = {"id"})
 public class Item {
 	@Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_item")

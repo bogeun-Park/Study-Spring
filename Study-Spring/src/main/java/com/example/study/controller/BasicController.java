@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.springframework.web.bind.annotation.RestController;
 
 @Controller
 public class BasicController {	
@@ -24,7 +24,7 @@ public class BasicController {
     @GetMapping("/time")
     @ResponseBody
     public String time() {
-      return ZonedDateTime.now().toString();
+    	return ZonedDateTime.now().toString();
     }
     
     @Autowired
@@ -40,4 +40,17 @@ public class BasicController {
             return "DB 연결 실패: " + e.getMessage();
         }
     }
+}
+
+@RestController
+class RestComtroller {
+	@GetMapping("/rest")
+	public String rest() {
+		return "restAPI 호출쓰";
+	}
+	
+	@GetMapping("/resterr")
+	public String resterr() throws Exception {
+		throw new Exception();
+	}
 }
