@@ -14,14 +14,23 @@
  align-items: center;
  font-family : 'Montserrat';
 }
+
+a {
+	color: inherit;
+	text-decoration : none;
+}
+
+button {
+    cursor: pointer; /* 손가락 모양 커서 */
+}
+
 .nav a {
  margin-right: 10px;
- text-decoration : none;
  font-weight : 400;
  letter-spacing : -0.5px;
 }
+
 .nav .logo {
- color: inherit;
  font-weight : 800;
 }
 
@@ -32,19 +41,22 @@ input, button {
  border-radius : 4px;
  vertical-align : middle;
 }
+
 button {
  background : black;
  color : white;
  border : none;
 }
+
 input {
  display : block;
 }
 
-.detail {
+.read {
   text-align : center;
 }
-.detail img{
+
+.read img{
   max-width : 30%;
   display : block;
   margin : auto;

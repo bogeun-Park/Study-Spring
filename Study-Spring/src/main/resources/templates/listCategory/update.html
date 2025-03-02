@@ -8,16 +8,22 @@
 <body>
 	<div th:replace="~{nav.html::navbar}"></div>
 
-	<form action="/write_process" method="post">
+	<form action="/list/update_process" method="post">
+		<div>
+			<input type="hidden" name="id" th:value="${item.id}">
+		</div>
+		
 	    <div style="display: flex; align-items: center; margin-bottom: 10px;">
-	        <label for="title" style="width: 100px;">추가할 상품</label>
-	        <input id="title" name="title">
+	        <label for="title" style="width: 80px;">상품 이름</label>
+	        <input name="title" th:value="${item.title}">
 	    </div>
+	    
 	    <div style="display: flex; align-items: center; margin-bottom: 10px;">
-	        <label for="price" style="width: 100px;">가격</label>
-	        <input id="price" name="price">
+	        <label for="price" style="width: 80px;">가격</label>
+	        <input name="price" th:value="${item.price}">
 	    </div>
-	    <button type="submit">전송</button>
+	    
+	    <button type="submit">수정</button>
 	</form>
 </body>
 </html>

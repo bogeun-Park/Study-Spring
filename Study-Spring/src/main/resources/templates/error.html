@@ -6,10 +6,9 @@
 </head>
 <body>
 	<h1>Error Page</h1>
-	<p th:text="${status}"></p>
-	<p th:text="${error}"></p>
-	<p th:text="${path}"></p>
-	<p th:text="${message}"></p>
-	<p th:text="${exception}"></p>
+	<p th:text="'status : ' + ${status}"></p>
+	<p th:text="'error : ' + ${error}"></p>
+	<p th:text="'path : ' + ${path}"></p>
+	<p th:text="'message : ' + ${message}"></p>
 </body>
 </html>

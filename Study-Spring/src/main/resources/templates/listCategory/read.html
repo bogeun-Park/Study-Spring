@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="/main.css" rel="stylesheet">
+</head>
+<body>
+	<div th:replace="~{nav.html::navbar}"></div>
+	
+	<div class="read">
+		<h4>상세페이지</h4>
+		<img src="https://placehold.co/300">
+		<h4 th:text="${item.title}"></h4>
+		<p th:text="${item.price} + '원'"></p>
+		<p><a th:href="@{'/list/update/' + ${item.id}}" th:text="'✏️수정'"></a></p>
+		<p><button class="btnDel" th:data-id="${item.id}">삭제</button></p>
+	</div>
+
+	<script>
+		document.querySelector('.btnDel').addEventListener('click', (event) => {
+			const itemId = event.target.getAttribute('data-id');
+			fetch('/list/delete_process?id=' + itemId, {method : 'delete'})
+				.then(res => res.text())
+				.then(data => {
+					window.location.href = '/list';
+				})
+		})
+	</script>
+</body>
+</html>

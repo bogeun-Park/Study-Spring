@@ -13,7 +13,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@ToString(excludes = {"id"})
+@ToString
 public class Item {
 	@Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_item")
