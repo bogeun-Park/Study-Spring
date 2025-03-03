@@ -1,5 +1,50 @@
-<div class="nav" th:fragment="navbar">
-	<a href="/" class="logo">SpringMall</a>
-	<a href="/list">상품목록</a>
-	<a href="/list/create">상품등록</a>
-</div>
+<!DOCTYPE html>
+<html lang="ko"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="/main.css" rel="stylesheet">
+</head>
+<body>
+	<div class="nav" th:fragment="navbar">
+		<a href="/" class="logo">SpringMall</a>
+		<a href="/list">list</a>
+		
+		
+		<div sec:authorize="hasAuthority('관리자')">
+			<a href="/list/create">상품등록</a>	
+		</div>
+		
+		<div sec:authorize="isAnonymous()">
+			<button class="btnLogin">로그인하기</button>
+		</div>
+		
+		<div sec:authorize="isAuthenticated()">
+			<span sec:authentication="principal.username"></span>
+			<a href="/myPage">마이페이지</a>
+			<button class="btnLogout">로그아웃</button>
+		</div>
+		
+		<script>		    
+		    document.addEventListener("DOMContentLoaded", () => {
+		        const loginBtn = document.querySelector(".btnLogin");
+		        if (loginBtn) {
+		            loginBtn.addEventListener("click", () => {
+		                window.location.href = "/login";
+		            });
+		        }
+
+		        const logoutBtn = document.querySelector(".btnLogout");
+		        if (logoutBtn) {
+		            logoutBtn.addEventListener("click", () => {
+		                window.location.href = "/logout";
+		            });
+		        }
+		    });
+		</script>
+	</div>
+</body>
+</html>
+

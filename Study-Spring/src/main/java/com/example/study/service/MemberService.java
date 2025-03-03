@@ -18,7 +18,7 @@ public class MemberService {
 	
 	public void saveMember(Map<String, String> formData) {
         String displayName = formData.get("displayName");
-        String userName = formData.get("userName");
+        String username = formData.get("username");
         String password = formData.get("password");
         
         // 비밀번호 암호화
@@ -26,7 +26,7 @@ public class MemberService {
 
         Member member = new Member();
         member.setDisplayName(displayName);
-        member.setUserName(userName);
+        member.setUsername(username);
         member.setPassword(encodedPassword);
 
         memberRepository.save(member);

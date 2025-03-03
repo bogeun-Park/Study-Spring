@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<html lang="ko"
+	  xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -9,6 +10,8 @@
 	<div th:replace="~{nav.html::navbar}"></div>
 
 	<form action="/list/create_process" method="post">
+		<input type="hidden" name="created_by" th:value="${#authentication.principal.username}">
+		
 	    <div style="display: flex; align-items: center; margin-bottom: 10px;">
 	        <label for="title" style="width: 100px;">추가할 상품</label>
 	        <input name="title">

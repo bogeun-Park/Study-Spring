@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="/main.css" rel="stylesheet">
+</head>
+<body>
+	<div th:replace="~{nav.html::navbar}"></div>
+	
+	<h2>마이페이지</h2>
+	
+	<p sec:authentication="principal"></p>
+	
+	<p sec:authentication="principal.username"></p>
+	
+	<p th:text="${user.getUsername()}"></p>
+	
+	<p th:text="${user.getDisplayName()}"></p>
+	
+	<div sec:authorize="hasAuthority('관리자')">
+		<h4>관리자 입니다.</h4>
+	</div>
+	<div sec:authorize="hasAuthority('사용자')">
+		<h4>사용자 입니다.</h4>
+	</div>
+</body>
+</html>

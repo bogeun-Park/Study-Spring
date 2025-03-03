@@ -35,6 +35,7 @@ public class ItemService {
 		// formData에서 title과 price를 가져오기
         String title = formData.get("title");
         String strPrice = formData.get("price");
+        String created_by = formData.get("created_by");
 
         // price 값을 Integer로 변환
         Integer price = null;
@@ -50,6 +51,7 @@ public class ItemService {
         Item item = new Item();
         item.setTitle(title);
         item.setPrice(price);
+        item.setCreated_by(created_by);
 
         // 데이터베이스에 저장
         itemRepository.save(item);

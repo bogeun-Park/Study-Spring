@@ -25,7 +25,7 @@ public class Member {
 	private String displayName;
 	
 	@Column(name = "USERNAME", nullable = false, unique = true)
-	private String userName;
+	private String username;
 	
 	@Column(name = "PASSWORD", nullable = false)
 	private String password;

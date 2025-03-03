@@ -1,4 +1,4 @@
-package com.example.study.config;
+package com.example.study.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +16,14 @@ public class SecurityConfig {
 		http.csrf((csrf) -> csrf.disable());
 		http.authorizeHttpRequests((authorize) ->
 			authorize.requestMatchers("/**").permitAll()
+		);
+		http.formLogin((formLogin) -> formLogin.loginPage("/login")
+			.defaultSuccessUrl("/")
+//			.failureUrl("/fail")  이게 없으면 로그인 실패시 /login?error로 이동함
+		); 
+		http.logout(logout -> logout
+			.logoutUrl("/logout")
+			.logoutSuccessUrl("/login")   
 		);
 		
 		return http.build();

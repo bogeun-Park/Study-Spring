@@ -8,17 +8,17 @@
 <body>
 	<div th:replace="~{nav.html::navbar}"></div>
 	
-	<h2>회원가입</h2>
+	<h2>로그인</h2>
 	
-	<form action="/login/register_process" method="post">
-	    <div style="display: flex; align-items: center; margin-bottom: 10px;">
-	        <label for="displayName" style="width: 80px;">이름</label>
-	        <input name="displayName" placeholder="이름">
-	    </div>
-	    
+	<!-- 현재 url의 error라는 query string이 담겨있으면 보여준다 -->
+	<div th:if="${param.error}">  
+		<h4>회원 정보가 일치하지 않습니다.</h4>
+	</div>
+
+	<form action="/login" method="post">
 	    <div style="display: flex; align-items: center; margin-bottom: 10px;">
 	        <label for="username" style="width: 80px;">아이디</label>
-	        <input name="username" placeholder="아이디">
+	        <input name="username">
 	    </div>
 	    
 	    <div style="display: flex; align-items: center; margin-bottom: 10px;">
@@ -26,7 +26,17 @@
 	        <input name="password" type="password">
 	    </div>
 	    
-	    <button type="submit">가입하기</button>
+	    <p>
+		    <button type="submit">로그인</button>
+		    <button class="btnRegister">회원가입</button>
+		</p>
 	</form>
+	
+	<script>
+	    document.querySelector(".btnRegister").addEventListener("click", (event) => {
+	    	event.preventDefault();
+	        window.location.href = "/login/register";
+	    });
+	</script>
 </body>
 </html>

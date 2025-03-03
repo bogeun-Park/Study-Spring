@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,9 +19,6 @@ import com.example.study.service.ItemService;
 
 import lombok.RequiredArgsConstructor;
 
-// @RequestParam : URL 경로에서 변수 값을 추출할 때 사용
-// @PathVariable : 쿼리 파라미터 또는 폼 데이터에서 값을 추출할 때 사용
-
 @Controller
 @RequiredArgsConstructor
 public class ItemController {
@@ -33,12 +30,13 @@ public class ItemController {
 		
 		// (html 파일의 변수명, 전달할 데이터)
         model.addAttribute("items", items);
+        
         return "listCategory/list";  // html파일 위치
     }
 	
 	@GetMapping("/list/create")
-    public String write() {
-        
+    public String create(Model model) {
+		
         return "listCategory/create";
     }
 	
