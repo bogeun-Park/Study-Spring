@@ -14,10 +14,11 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.csrf((csrf) -> csrf.disable());
-		http.authorizeHttpRequests((authorize) ->
-			authorize.requestMatchers("/**").permitAll()
+		http.authorizeHttpRequests((authorize) -> authorize
+			.requestMatchers("/**").permitAll()
 		);
-		http.formLogin((formLogin) -> formLogin.loginPage("/login")
+		http.formLogin((formLogin) -> formLogin
+			.loginPage("/login")  // 폼으로 로그인 설정 -> 로그인페이지 URL
 			.defaultSuccessUrl("/")
 //			.failureUrl("/fail")  이게 없으면 로그인 실패시 /login?error로 이동함
 		); 

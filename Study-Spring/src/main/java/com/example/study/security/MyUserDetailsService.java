@@ -1,4 +1,4 @@
-package com.example.study.service;
+package com.example.study.security;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +13,12 @@ import org.springframework.stereotype.Service;
 
 import com.example.study.domain.Member;
 import com.example.study.repository.MemberRepository;
-import com.example.study.security.CustomUser;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class MyUserDetailsService implements UserDetailsService {  // 로그인시 실행되어 로그인 정보를 저장
+public class MyUserDetailsService implements UserDetailsService {  // 로그인시 실행되어 DB에 있는 로그인 정보를 저장
 	private final MemberRepository memberRepository;
 	
 	// DB에서 username을 가진 유저를 찾아 new User(유저아이디, 비번, 권한)을 리턴함
@@ -35,10 +34,10 @@ public class MyUserDetailsService implements UserDetailsService {  // 로그인�
 		}
 		
 		List<GrantedAuthority> authority = new ArrayList<>();
-		if(member.getUsername().equals("admin")) {
-			authority.add(new SimpleGrantedAuthority("관리자"));
+		if(member.getUsername().equals("admin")) { 
+			authority.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
 		} else {
-			authority.add(new SimpleGrantedAuthority("사용자"));
+			authority.add(new SimpleGrantedAuthority("ROLE_USER"));
 		}
 		
 		CustomUser user = new CustomUser(member.getUsername(), member.getPassword(), authority); 

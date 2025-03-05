@@ -20,10 +20,10 @@
 	
 	<p th:text="${user.getDisplayName()}"></p>
 	
-	<div sec:authorize="hasAuthority('관리자')">
+	<div sec:authorize="hasAuthority('ROLE_ADMIN')">
 		<h4>관리자 입니다.</h4>
 	</div>
-	<div sec:authorize="hasAuthority('사용자')">
+	<div sec:authorize="hasAuthority('ROLE_USER')">
 		<h4>사용자 입니다.</h4>
 	</div>
 </body>

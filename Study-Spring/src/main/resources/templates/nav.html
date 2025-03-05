@@ -9,11 +9,10 @@
 </head>
 <body>
 	<div class="nav" th:fragment="navbar">
-		<a href="/" class="logo">SpringMall</a>
+		<a href="/" class="logo">SalesShop</a>
 		<a href="/list">list</a>
 		
-		
-		<div sec:authorize="hasAuthority('관리자')">
+		<div sec:authorize="hasAuthority('ROLE_ADMIN')">
 			<a href="/list/create">상품등록</a>	
 		</div>
 		
