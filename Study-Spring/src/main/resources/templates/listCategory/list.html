@@ -7,15 +7,39 @@
 </head>
 <body>
 	<div th:replace="~{nav.html::navbar}"></div>
-
-	<div class="card" th:each="item : ${items}">  <!-- items에 담긴 자료 개수만큼 반복 -->
-		<img src="https://placehold.co/300">
-		<div>
-			<h4>
-				<a th:href="@{'/list/read/' + ${item.id}}" th:text="${item.title}"></a>
-			</h4>
-			<p th:text="${item.price} + '원'"></p>
+	
+	<!-- 아이템 목록 출력 -->
+	<div class="con">
+		<div class="card" th:each="item : ${items}">  <!-- items에 담긴 자료 개수만큼 반복 -->
+			<img src="https://placehold.co/300">
+			<div>
+				<h4>
+					<a th:href="@{'/list/read/' + ${item.id}}" th:text="${item.title}"></a>
+				</h4>
+				<p th:text="${item.price} + '원'"></p>
+			</div>
 		</div>
+	</div>
+	
+	<!-- 페이지네이션 버튼 -->
+	<div class="container">
+	    <ul class="pagination">
+	        <!-- 이전 버튼 -->
+	        <li th:class="${currentPage == 1 ? 'page-item disabled' : 'page-item'}">
+	            <a th:href="@{/list?page={num}(num=${currentPage > 1 ? currentPage - 1 : 1})}" class="page-link">이전</a>
+	        </li>
+	
+	        <!-- 페이지 번호 버튼 -->
+	        <li th:each="i : ${#numbers.sequence(1, totalPages != null ? totalPages : 1)}" class="page-item">
+	            <a th:href="@{/list?page={num}(num=${i})}" th:text="${i}" class="page-link"
+	               th:classappend="${i == currentPage ? ' active' : ''}"></a>
+	        </li>
+	
+	        <!-- 다음 버튼 -->
+	        <li th:class="${currentPage == totalPages ? 'page-item disabled' : 'page-item'}">
+	            <a th:href="@{/list?page={num}(num=${currentPage < totalPages ? currentPage + 1 : totalPages})}" class="page-link">다음</a>
+	        </li>
+	    </ul>
 	</div>
 </body>
 </html>

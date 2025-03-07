@@ -8,7 +8,9 @@
 </head>
 <body>
 	<div th:replace="~{nav.html::navbar}"></div>
-
+	
+	<h2>상품 등록하기</h2>
+	
 	<form action="/list/create_process" method="post">
 		<input type="hidden" name="created_by" th:value="${#authentication.principal.username}">
 		

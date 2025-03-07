@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +26,8 @@ public class ItemService {
         return items;
     }
     
-    public Optional<Item> getIdItems(Long id) {
-    	// Optional : res가 비어있을 수도 있고 그렇지 않으면 타입이 Item이다
+    public Optional<Item> getIdItem(Long id) {
+    	// Optional : res가 getIdItem 수도 있고 그렇지 않으면 타입이 Item이다
     	// Optional은 Item 객체를 감싸고 있으므로 get()메서드를 통해서 실제 객체를 꺼낸다
     	Optional<Item> item = itemRepository.findById(id);
     	
@@ -88,5 +91,10 @@ public class ItemService {
 	
 	public void deleteItem(Long id) {
 		itemRepository.deleteById(id);
+	}
+	
+	public Page<Item> getItemPage(int num, int size) {
+		Pageable pageable = PageRequest.of(num, size, Sort.by(Sort.Order.asc("id")));
+		return itemRepository.findPageBy(pageable);
 	}
 }

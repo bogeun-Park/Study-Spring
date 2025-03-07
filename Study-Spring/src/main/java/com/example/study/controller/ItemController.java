@@ -1,9 +1,9 @@
 package com.example.study.controller;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,11 +24,18 @@ public class ItemController {
 	private final ItemService itemService;
 
 	@GetMapping("/list")
-    public String list(Model model) {
-		List<Item> items = itemService.getAllItems();
+    public String listPage(@RequestParam("page") int num, Model model) {
+		// 페이지 번호는 1부터 시작하므로, (num - 1)로 설정
+		// (몇번째 페이지, 페이지당 몇개)
+	    Page<Item> items = itemService.getItemPage((num - 1), 3);
+	    
+	    // 총 페이지 수와 현재 페이지
+	    int totalPages = items.getTotalPages();  // 전체 페이지 수
+	    int currentPage = items.getNumber() + 1;  // 현재 페이지 번호 (0부터 시작하므로 1을 더해줍니다)
 		
-		// (html 파일의 변수명, 전달할 데이터)
         model.addAttribute("items", items);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("currentPage", currentPage);
         
         return "listCategory/list";  // html파일 위치
     }
@@ -48,7 +55,7 @@ public class ItemController {
 	
 	@GetMapping("/list/read/{id}")
     public String read(@PathVariable("id") Long id, Model model) {
-		Optional<Item> item = itemService.getIdItems(id);
+		Optional<Item> item = itemService.getIdItem(id);
 		
 		if(item.isPresent()) { // item에 뭔가 들어 있다면
 			model.addAttribute("item", item.get());
@@ -61,7 +68,7 @@ public class ItemController {
 	
 	@GetMapping("/list/update/{id}")
     public String update(@PathVariable("id") Long id, Model model) {
-		Optional<Item> item = itemService.getIdItems(id);
+		Optional<Item> item = itemService.getIdItem(id);
 		
 		if(item.isPresent()) { // item에 뭔가 들어 있다면
 			model.addAttribute("item", item.get());
