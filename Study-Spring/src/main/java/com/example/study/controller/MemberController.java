@@ -19,7 +19,6 @@ import com.example.study.dto.MemberDto;
 import com.example.study.security.CustomUser;
 import com.example.study.service.MemberService;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 @Controller
