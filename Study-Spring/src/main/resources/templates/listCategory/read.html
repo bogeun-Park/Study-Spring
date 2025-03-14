@@ -31,7 +31,7 @@
 			fetch('/list/delete_process?id=' + itemId, {method : 'delete'})
 				.then(res => res.text())
 				.then(data => {
-					window.location.href = '/list';
+					window.location.href = '/list?page=1';
 				})
 		})
 	</script>
