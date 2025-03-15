@@ -3,9 +3,40 @@
 	  xmlns:th="http://www.thymeleaf.org"
 	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link href="/main.css" rel="stylesheet">
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<link href="/main.css" rel="stylesheet">
+	
+	<style>
+		textarea {
+		    width: 100%;
+		    height: 4.5em; /* 대략 3줄 높이 */
+		    resize: none; /* 사용자가 크기 조절 못 하도록 설정 */
+		    margin-top: 6px; /* 텍스트와 간격 추가 */
+		}
+		
+        .no-comments {
+            color: #e74c3c;
+            font-style: italic;
+        }
+
+        .comment-list {
+        	list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .comment-list li {
+            background-color: #ecf0f1;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .comment-list li span {
+            color: #7f8c8d;
+        }
+	</style>
 </head>
 <body>
 	<div th:replace="~{nav.html::navbar}"></div>
@@ -24,7 +55,32 @@
 			<button class="btnDel" th:data-id="${item.id}">삭제</button>
 		</p>
 	</div>
-
+	
+    <!-- 댓글목록 -->
+    <div class="comment-section">
+        <label>댓글목록</label><br>
+        
+        <!-- 댓글이 없을 경우 메시지 표시 -->
+        <p th:if="${#lists.isEmpty(comment)}" class="no-comments">댓글이 없습니다.</p>
+        
+        <!-- 댓글이 있을 경우 댓글 목록 표시 -->
+        <ul class="comment-list">
+            <li th:each="comment : ${comment}">
+                <strong th:text="${comment.username}"></strong> :
+                <span th:text="${comment.content}"></span>
+            </li>
+        </ul>
+    </div>
+    <br>
+	
+	<!-- 댓글등록 -->
+	<form action="/comment_process" method="post" sec:authorize="isAuthenticated()">
+		<input type="hidden" name="parent_id" th:value="${item.id}">
+        <label for="content">댓글등록</label><br>
+		<textarea name="content"></textarea><br>
+		<button type="submit">등록</button>
+	</form>
+	
 	<script>
 		document.querySelector('.btnDel').addEventListener('click', (event) => {
 			const itemId = event.target.getAttribute('data-id');
