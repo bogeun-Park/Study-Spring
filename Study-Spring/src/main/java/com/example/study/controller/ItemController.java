@@ -28,7 +28,7 @@ public class ItemController {
 	private final CommentService commentService;
 
 	@GetMapping("/list")
-    public String listPage(@RequestParam("page") int num, Model model) {
+    public String listPage(@RequestParam(value = "page", defaultValue = "1") int num, Model model) {
 		// 페이지 번호는 1부터 시작하므로, (num - 1)로 설정
 		// (몇번째 페이지, 페이지당 몇개)
 	    Page<Item> items = itemService.getItemPage((num - 1), 3);
@@ -54,7 +54,7 @@ public class ItemController {
     public String createProcess(@RequestParam Map<String, String> formData) {
 		itemService.saveItem(formData);
 
-        return "redirect:/list?page=1";  // URL로 리다이렉트
+        return "redirect:/list";  // URL로 리다이렉트
     }
 	
 	@GetMapping("/list/read/{id}")
@@ -68,7 +68,7 @@ public class ItemController {
 			return "listCategory/read";
 		}
 		else {
-			return "redirect:/list?page=1";
+			return "redirect:/list";
 		}
     }
 	
@@ -81,7 +81,7 @@ public class ItemController {
 			return "listCategory/update";
 		}
 		else {
-			return "redirect:/list?page=1";
+			return "redirect:/list";
 		}
     }
 	
@@ -97,5 +97,15 @@ public class ItemController {
 		itemService.deleteItem(id);
 		
         return ResponseEntity.status(200).body("삭제완료");
+    }
+	
+	@GetMapping("/list/search")
+    public String listSearch(@RequestParam("data") String searchTxt, Model model) {
+		List<Item> searchItems = itemService.findAllByTitleContains(searchTxt);
+	
+		model.addAttribute("searchTxt", searchTxt);
+		model.addAttribute("searchItems", searchItems);
+        
+        return "listCategory/searchList";
     }
 }

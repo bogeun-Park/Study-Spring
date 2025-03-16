@@ -10,7 +10,7 @@
 <body>
 	<div class="nav" th:fragment="navbar">
 		<a href="/" class="logo">SalesShop</a>
-		<a href="/list?page=1">list</a>
+		<a href="/list">list</a>
 		<a href="/list/create" sec:authorize="hasAuthority('ROLE_ADMIN')">상품등록</a>	
 		
 		<div sec:authorize="isAnonymous()">

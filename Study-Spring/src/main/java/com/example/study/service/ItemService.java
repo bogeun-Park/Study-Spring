@@ -1,5 +1,6 @@
 package com.example.study.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -21,7 +22,7 @@ public class ItemService {
 	private final ItemRepository itemRepository;
 	
     public List<Item> getAllItems() {
-    	List<Item> items = itemRepository.findAll(Sort.by(Sort.Order.asc("id"))); 
+    	List<Item> items = itemRepository.findAll(Sort.by("id").ascending()); 
     	
         return items;
     }
@@ -94,7 +95,18 @@ public class ItemService {
 	}
 	
 	public Page<Item> getItemPage(int num, int size) {
-		Pageable pageable = PageRequest.of(num, size, Sort.by(Sort.Order.asc("id")));
+		Pageable pageable = PageRequest.of(num, size, Sort.by("id").ascending());
+		
 		return itemRepository.findPageBy(pageable);
+	}
+	
+	public List<Item> findAllByTitleContains(String searchTxt) {
+		if (searchTxt == null || searchTxt.trim().isEmpty()) {
+	        return new ArrayList<>(); // 빈 리스트 반환
+	    }
+		
+		List<Item> searchItems = itemRepository.findAllByTitleContains(searchTxt, Sort.by("id").ascending());
+	
+		return searchItems;
 	}
 }
