@@ -8,8 +8,8 @@
 <body>
 	<div th:replace="~{nav.html::navbar}"></div>
 	
-	<form action="/list" style="display: flex; justify-content: center;" onsubmit="">
-		<input name="search" th:value="${searchTxt}" style="display : inline">
+	<form action="/list" style="display: flex; justify-content: center;" onsubmit="return validateSearch()">
+		<input id="search" name="search" th:value="${searchTxt}" style="display : inline">
 		<button>⌕</button>
 	</form>
 	
@@ -69,5 +69,15 @@
 	        </li>
 	    </ul>
 	</div>
+	
+	<script>
+	    function validateSearch() {
+	        var searchValue = document.getElementById("search").value.trim();
+	        if (searchValue === "") {
+	            return false; // 제출 방지
+	        }
+	        return true; // 정상 제출
+	    }
+	</script>
 </body>
 </html>
