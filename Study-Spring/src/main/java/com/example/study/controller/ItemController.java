@@ -28,18 +28,23 @@ public class ItemController {
 	private final CommentService commentService;
 
 	@GetMapping("/list")
-    public String listPage(@RequestParam(value = "page", defaultValue = "1") int num, Model model) {
+    public String listPage(@RequestParam(value = "page", defaultValue = "1") int num, 
+    					   @RequestParam(value = "search", required = false) String searchTxt,
+    					   Model model) {		
 		// 페이지 번호는 1부터 시작하므로, (num - 1)로 설정
 		// (몇번째 페이지, 페이지당 몇개)
-	    Page<Item> items = itemService.getItemPage((num - 1), 3);
+	    Page<Item> items = itemService.getItemPage((num - 1), 3, searchTxt);
 	    
 	    // 총 페이지 수와 현재 페이지
 	    int totalPages = items.getTotalPages();  // 전체 페이지 수
 	    int currentPage = items.getNumber() + 1;  // 현재 페이지 번호 (0부터 시작하므로 1을 더해줍니다)
+	    
+	    if(totalPages == 0) totalPages = 1;
 		
         model.addAttribute("items", items);
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("currentPage", currentPage);
+        model.addAttribute("searchTxt", searchTxt);
         
         return "listCategory/list";  // html파일 위치
     }

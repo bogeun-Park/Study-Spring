@@ -94,10 +94,14 @@ public class ItemService {
 		itemRepository.deleteById(id);
 	}
 	
-	public Page<Item> getItemPage(int num, int size) {
+	public Page<Item> getItemPage(int num, int size, String searchTxt) {
 		Pageable pageable = PageRequest.of(num, size, Sort.by("id").ascending());
 		
-		return itemRepository.findPageBy(pageable);
+		if (searchTxt != null && !searchTxt.isBlank()) {
+			return itemRepository.findByTitleContaining(pageable, searchTxt);
+	    } else {    
+	        return itemRepository.findPageBy(pageable);  
+	    }
 	}
 	
 	public List<Item> findAllByTitleContains(String searchTxt) {
