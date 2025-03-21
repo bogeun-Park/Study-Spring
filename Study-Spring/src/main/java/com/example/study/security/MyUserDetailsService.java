@@ -42,6 +42,7 @@ public class MyUserDetailsService implements UserDetailsService {  // 로그인�
 		
 		CustomUser user = new CustomUser(member.getUsername(), member.getPassword(), authority); 
 		user.setDisplayName(member.getDisplayName());
+		user.setId(member.getId());
 		
 		// Authentication auth 변수 안에 들어감
 		// User 또는 User상속한 클래스 타입만 return 가능

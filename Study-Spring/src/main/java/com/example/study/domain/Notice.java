@@ -2,7 +2,6 @@ package com.example.study.domain;
 
 import java.sql.Date;
 
-import groovy.transform.ToString;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,6 +11,7 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Getter
@@ -24,13 +24,13 @@ public class Notice {
 	@Column(name = "ID")
 	private Long id;
 	
-	@Column(name = "title", nullable = false)
+	@Column(name = "TITLE", nullable = false)
 	private String title;
 
-    @Column(name = "content", nullable = false)
+    @Column(name = "CONTENT", nullable = false)
     private String content;
     
-    @Column(name = "created", nullable = false)
+    @Column(name = "CREATED", nullable = false)
     private Date created;
 
     @PrePersist

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="/main.css" rel="stylesheet">
+</head>
+<body>
+	<div th:replace="~{nav.html::navbar}"></div>
+
+	<div class="con">
+	    <div th:each="salesDto : ${salesDtoList}">
+	        <h3 th:text="${salesDto.itemName}">Item Name</h3>
+	        <div>
+	            <p><strong>Price:</strong> <span th:text="${salesDto.price}">Price</span></p>
+	            <p><strong>Count:</strong> <span th:text="${salesDto.count}">Count</span></p>
+	            <p><strong>Display Name:</strong> <span th:text="${salesDto.displayName}">Display Name</span></p>
+	            <p><strong>Username:</strong> <span th:text="${salesDto.username}">Username</span></p>
+	            <p><strong>Created:</strong> <span th:text="${#dates.format(salesDto.created, 'yyyy-MM-dd HH:mm')}">Creation Date</span></p>
+	        </div>
+	        <br>
+	    </div>
+	</div>
+</body>
+</html>

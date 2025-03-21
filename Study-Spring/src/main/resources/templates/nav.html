@@ -12,6 +12,7 @@
 		<a href="/" class="logo">SalesShop</a>
 		<a href="/list">list</a>
 		<a href="/list/create" sec:authorize="hasAuthority('ROLE_ADMIN')">상품등록</a>	
+		<a href="/order" sec:authorize="hasAuthority('ROLE_ADMIN')">주문현황</a>
 		
 		<div sec:authorize="isAnonymous()">
 		    <button class="btnLogin">로그인</button>

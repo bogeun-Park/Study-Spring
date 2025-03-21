@@ -12,10 +12,6 @@
 	
 	<h2>마이페이지</h2>
 	
-	<p sec:authentication="principal"></p>
-	
-	<p sec:authentication="principal.username"></p>
-	
 	<p th:text="${user.getUsername()}"></p>
 	
 	<p th:text="${user.getDisplayName()}"></p>
@@ -26,5 +22,8 @@
 	<div sec:authorize="hasAuthority('ROLE_USER')">
 		<h4>사용자 입니다.</h4>
 	</div>
+	
+	<a th:href="@{'/order?id=' + ${user.id}}" sec:authorize="hasAuthority('ROLE_USER')">주문내역</a>
+	
 </body>
 </html>
