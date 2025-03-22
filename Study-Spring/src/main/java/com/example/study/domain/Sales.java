@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import jakarta.persistence.Column;
 import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,7 +39,9 @@ public class Sales {
 	@Column(name = "COUNT", nullable = false)
 	private Integer count;
 	
-	@ManyToOne  // 여러 개의 주문(Sales)을 하나의 Member가 가질 수 있음(다대일)
+	// ManyToOne : 여러 개의 주문(Sales)이 하나의 Member에 속한다
+	// FetchType.LAZY : 필요할 때 가져온다, FetchType.EAGER : 필요없어도 가져온다(default)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "MEMBER_ID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT), nullable = false)
 	private Member member;
 	
