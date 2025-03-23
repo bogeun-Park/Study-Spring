@@ -18,7 +18,7 @@ public class SecurityConfig {
 			.requestMatchers("/**").permitAll()
 		);
 		http.formLogin((formLogin) -> formLogin
-			.loginPage("/login")  // 폼으로 로그인 설정 -> 로그인페이지 URL
+			.loginPage("/login_process")  // 폼으로 로그인 설정 -> 로그인페이지 URL
 			.defaultSuccessUrl("/")
 //			.failureUrl("/fail")  이게 없으면 로그인 실패시 /login?error로 이동함
 		); 
