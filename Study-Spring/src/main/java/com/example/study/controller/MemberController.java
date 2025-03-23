@@ -93,7 +93,7 @@ public class MemberController {
 		return jwt;
 	}
 	
-	@GetMapping("/my-page/jwt")
+	@GetMapping("/myPage/jwt")
 	@ResponseBody
 	public String mypageJWT(Authentication auth) {
 		CustomUser user = (CustomUser) auth.getPrincipal();
