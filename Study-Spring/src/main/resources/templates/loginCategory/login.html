@@ -8,14 +8,13 @@
 <body>
 	<div th:replace="~{nav.html::navbar}"></div>
 	
-	<h2>로그인</h2>
-	
 	<!-- 현재 url의 error라는 query string이 담겨있으면 보여준다 -->
 	<div th:if="${param.error}">  
 		<h4>회원 정보가 일치하지 않습니다.</h4>
 	</div>
-
-	<form action="/login_process" method="post">
+	
+	<h2>일반 로그인</h2>
+	<form action="/login" method="post">
 	    <div style="display: flex; align-items: center; margin-bottom: 10px;">
 	        <label for="username" style="width: 80px;">아이디</label>
 	        <input name="username">
@@ -31,12 +30,50 @@
 		    <button class="btnRegister">회원가입</button>
 		</p>
 	</form>
+	<br>
+	
+	<h2>JWT 로그인</h2>
+	<form>
+	    <div style="display: flex; align-items: center; margin-bottom: 10px;">
+	        <label for="username"  style="width: 80px;">아이디</label>
+	        <input name="username" id="username">
+	    </div>
+	    
+	    <div style="display: flex; align-items: center; margin-bottom: 10px;">
+	        <label for="password" style="width: 80px;">비밀번호</label>
+	        <input name="password" type="password" id="password">
+	    </div>
+	</form>
+	
+	<p>
+	    <button onclick="loginJWT()">로그인</button>
+	    <button onclick="getMyPage()">JWT마이페이지</button>
+	</p>
 	
 	<script>
 	    document.querySelector(".btnRegister").addEventListener("click", (event) => {
 	    	event.preventDefault();
 	        window.location.href = "/login/register";
 	    });
+	    
+	    function loginJWT() {
+			fetch('/login/jwt', {
+				method : 'POST',
+				headers : {'Content-Type': 'application/json'},
+				body : JSON.stringify({
+					username : document.querySelector('#username').value,
+					password : document.querySelector('#password').value
+				})
+			})
+			.then(r => r.text())
+			.then(r => { console.log(r) })
+		}
+	    
+	    function getMyPage() {
+			fetch('/my-page/jwt')
+			.then(r => r.text())
+			.then(r => { console.log(r) })
+	    }
 	</script>
 </body>
 </html>
