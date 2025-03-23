@@ -64,7 +64,7 @@ public class MemberController {
 	
 	@GetMapping("/user/{id}")
 	@ResponseBody
-    public MemberDto getUSer(@PathVariable("id") Long id, Model model, Authentication auth) {
+    public MemberDto getUser(@PathVariable("id") Long id, Model model, Authentication auth) {
 		Optional<Member> member = memberService.getIdItem(id);
 		
 		if(member.isPresent()) {
