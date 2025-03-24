@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.study.domain.Comments;
 import com.example.study.domain.Item;
 import com.example.study.service.CommentService;
 import com.example.study.service.ItemService;
+import com.example.study.service.OracleStorageService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 public class ItemController {
 	private final ItemService itemService;
 	private final CommentService commentService;
+	private final OracleStorageService oracleStorageService;
 
 	@GetMapping("/list")
     public String listPage(@RequestParam(value = "page", defaultValue = "1") int num, 
@@ -102,5 +105,13 @@ public class ItemController {
 		itemService.deleteItem(id);
 		
         return ResponseEntity.status(200).body("삭제완료");
+    }
+	
+	@GetMapping("/presigned-url")
+	@ResponseBody
+	public String getUrl(@RequestParam("filename") String filename) {        
+        String presignedUrl = oracleStorageService.createPresignedUrl(filename);
+        
+        return presignedUrl;
     }
 }

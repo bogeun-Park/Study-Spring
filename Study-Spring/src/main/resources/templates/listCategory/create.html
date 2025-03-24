@@ -31,5 +31,26 @@
 	    
 	    <button type="submit">전송</button>
 	</form>
+	
+	<input type="file" onchange="getUrl(this)">
+	
+	<script>
+		async function getUrl(e) {
+			let name = encodeURIComponent(e.files[0].name);
+			let presigendUrl = await fetch('/presigned-url?filename=' + name);
+			presigendUrl = await presigendUrl.text();
+			
+			let res = await fetch(presigendUrl, {
+				method: 'PUT',
+			    headers: {
+			        'Content-Type': e.files[0].type // 파일 타입을 설정 (예: image/jpeg, application/pdf 등)
+			    },
+			    body: e.files[0]
+			})
+			
+			console.log(res);
+			console.log(res.url);
+		}
+	</script>
 </body>
 </html>
