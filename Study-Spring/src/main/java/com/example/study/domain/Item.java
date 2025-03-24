@@ -27,6 +27,9 @@ public class Item {
 	@Column(name = "PRICE", nullable = false)
 	private Integer price;
 	
+	@Column(name = "COUNT")
+	private Integer count;
+	
 	@Column(name = "CREATED_BY")
 	private String created_by;
 }

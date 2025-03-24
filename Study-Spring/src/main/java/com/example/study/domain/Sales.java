@@ -1,6 +1,6 @@
 package com.example.study.domain;
 
-import java.sql.Date;
+import java.util.Date;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -46,6 +46,6 @@ public class Sales {
 	private Member member;
 	
 	@CreationTimestamp
-	@Column(name = "CREATED", nullable = false)
+	@Column(name = "CREATED", nullable = false, updatable = false)
     private Date created;
 }

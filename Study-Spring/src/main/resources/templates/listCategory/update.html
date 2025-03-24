@@ -23,6 +23,11 @@
 	        <input name="price" th:value="${item.price}">
 	    </div>
 	    
+	    <div style="display: flex; align-items: center; margin-bottom: 10px;">
+	        <label for="count" style="width: 80px;">재고량</label>
+	        <input name="count" th:value="${item.count}">
+	    </div>
+	    
 	    <button type="submit">수정</button>
 	</form>
 </body>

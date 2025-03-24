@@ -40,6 +40,7 @@ public class ItemService {
         String title = formData.get("title");
         String strPrice = formData.get("price");
         String created_by = formData.get("created_by");
+        String strCount = formData.get("count");
 
         // price 값을 Integer로 변환
         Integer price = null;
@@ -50,11 +51,22 @@ public class ItemService {
                 throw new IllegalArgumentException("가격은 음수일 수 없습니다.");
             }
         }
+        
+        // count 값을 Integer로 변환
+        Integer count = null;
+        if (strCount != null && !strCount.isEmpty()) {
+        	count = Integer.parseInt(strCount);
+            
+            if (count < 0) {
+                throw new IllegalArgumentException("재고량은 음수일 수 없습니다.");
+            }
+        }
 
         // Item 엔티티 객체 생성
         Item item = new Item();
         item.setTitle(title);
         item.setPrice(price);
+        item.setCount(count);
         item.setCreated_by(created_by);
 
         // 데이터베이스에 저장
@@ -65,6 +77,7 @@ public class ItemService {
 		String strId = formData.get("id");
         String title = formData.get("title");
         String strPrice = formData.get("price");
+        String strCount = formData.get("count");
 
         Long id = null;
         if (strId != null && !strId.isEmpty()) {
@@ -78,12 +91,23 @@ public class ItemService {
             if (price < 0) {
                 throw new IllegalArgumentException("가격은 음수일 수 없습니다.");
             }
-        } 
+        }
+        
+        // count 값을 Integer로 변환
+        Integer count = null;
+        if (strCount != null && !strCount.isEmpty()) {
+        	count = Integer.parseInt(strCount);
+            
+            if (count < 0) {
+                throw new IllegalArgumentException("재고량은 음수일 수 없습니다.");
+            }
+        }
 
         Item item = new Item();
         item.setId(id);
         item.setTitle(title);
         item.setPrice(price);
+        item.setCount(count);
         
         itemRepository.save(item);
         
