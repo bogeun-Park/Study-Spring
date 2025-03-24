@@ -103,14 +103,4 @@ public class ItemController {
 		
         return ResponseEntity.status(200).body("삭제완료");
     }
-	
-	@GetMapping("/list/search")
-    public String listSearch(@RequestParam("data") String searchTxt, Model model) {
-		List<Item> searchItems = itemService.findAllByTitleContains(searchTxt);
-	
-		model.addAttribute("searchTxt", searchTxt);
-		model.addAttribute("searchItems", searchItems);
-        
-        return "listCategory/searchList";
-    }
 }
