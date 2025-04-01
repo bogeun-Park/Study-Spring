@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.study.domain.Item;
 import com.example.study.repository.ItemRepository;
@@ -20,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ItemService {
 	private final ItemRepository itemRepository;
+	private final OracleStorageService oracleStorageService;
 	
     public List<Item> getAllItems() {
     	List<Item> items = itemRepository.findAll(Sort.by("id").ascending()); 
@@ -38,9 +40,10 @@ public class ItemService {
 	public void saveItem(Map<String, String> formData) {
 		// formData에서 title과 price를 가져오기
         String title = formData.get("title");
-        String strPrice = formData.get("price");
         String created_by = formData.get("created_by");
+        String strPrice = formData.get("price");
         String strCount = formData.get("count");
+        String imageUrl = formData.get("imageUrl");
 
         // price 값을 Integer로 변환
         Integer price = null;
@@ -65,9 +68,10 @@ public class ItemService {
         // Item 엔티티 객체 생성
         Item item = new Item();
         item.setTitle(title);
+        item.setCreated_by(created_by);
         item.setPrice(price);
         item.setCount(count);
-        item.setCreated_by(created_by);
+        item.setImageUrl(imageUrl);
 
         // 데이터베이스에 저장
         itemRepository.save(item);
@@ -76,6 +80,7 @@ public class ItemService {
 	public Long updateItem(Map<String, String> formData) {
 		String strId = formData.get("id");
         String title = formData.get("title");
+        String created_by = formData.get("created_by");
         String strPrice = formData.get("price");
         String strCount = formData.get("count");
 
@@ -106,6 +111,7 @@ public class ItemService {
         Item item = new Item();
         item.setId(id);
         item.setTitle(title);
+        item.setCreated_by(created_by);
         item.setPrice(price);
         item.setCount(count);
         
@@ -114,9 +120,25 @@ public class ItemService {
         return id;
 	}
 	
-	public void deleteItem(Long id) {
-		itemRepository.deleteById(id);
-	}
+	@Transactional
+    public void deleteItem(Long id, String imageUrl) {
+        // 아이템 삭제 작업
+        try {
+            itemRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new RuntimeException("아이템 삭제 실패", e);
+        }
+        
+        // 이미지 삭제 작업
+        String defaultImageUrl = "https://placehold.co/300";
+        
+        if (!imageUrl.equals(defaultImageUrl)) {
+            boolean imageDeleted = oracleStorageService.deleteObject(imageUrl);
+            if (!imageDeleted) {
+                throw new RuntimeException("이미지 삭제 실패");
+            }
+        }
+    }
 	
 	public Page<Item> getItemPage(int num, int size, String searchTxt) {
 		Pageable pageable = PageRequest.of(num, size, Sort.by("id").ascending());

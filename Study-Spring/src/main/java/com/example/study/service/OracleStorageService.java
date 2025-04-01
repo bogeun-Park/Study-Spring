@@ -12,6 +12,7 @@ import com.oracle.bmc.auth.SimplePrivateKeySupplier;
 import com.oracle.bmc.objectstorage.ObjectStorageClient;
 import com.oracle.bmc.objectstorage.model.CreatePreauthenticatedRequestDetails;
 import com.oracle.bmc.objectstorage.requests.CreatePreauthenticatedRequestRequest;
+import com.oracle.bmc.objectstorage.requests.DeleteObjectRequest;
 import com.oracle.bmc.objectstorage.requests.GetNamespaceRequest;
 import com.oracle.bmc.objectstorage.responses.CreatePreauthenticatedRequestResponse;
 
@@ -70,6 +71,37 @@ public class OracleStorageService {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+    
+    public boolean deleteObject(String fileUrl) {
+        try {
+            // Oracle Storage의 기본 엔드포인트
+            String endpoint = "https://objectstorage.ap-chuncheon-1.oraclecloud.com/n/";
+            
+            // URL에서 파일명 추출
+            if (!fileUrl.startsWith(endpoint)) {
+                throw new IllegalArgumentException("잘못된 파일 URL입니다.");
+            }
+
+            // 파일명만 추출
+            String objectName = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
+
+            // 네임스페이스 가져오기
+            String namespaceName = objectStorageClient.getNamespace(GetNamespaceRequest.builder().build()).getValue();
+
+            // 파일 삭제 요청
+            DeleteObjectRequest request = DeleteObjectRequest.builder()
+                    .namespaceName(namespaceName)
+                    .bucketName(bucketName)
+                    .objectName(objectName)
+                    .build();
+
+            objectStorageClient.deleteObject(request);
+            return true; // 성공 시 true 반환
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false; // 실패 시 false 반환
         }
     }
 }

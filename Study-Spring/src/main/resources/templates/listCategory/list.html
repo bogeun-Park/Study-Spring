@@ -16,7 +16,7 @@
 	<!-- 아이템 목록 출력 -->
 	<div class="con">
 		<div class="card" th:each="item : ${items}">  <!-- items에 담긴 자료 개수만큼 반복 -->
-			<img src="https://placehold.co/300">
+			<img th:src="${item.imageUrl}">  <!-- item.imageUrl이 null 또는 빈 값("")이면 디폴트 이미지 -->
 			<div>
 				<h4>
 					<a th:href="@{'/list/read/' + ${item.id}}" th:text="${item.title}"></a>

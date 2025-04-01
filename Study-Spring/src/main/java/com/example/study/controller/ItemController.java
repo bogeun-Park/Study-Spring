@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -101,17 +102,28 @@ public class ItemController {
     }
 	
 	@DeleteMapping("/list/delete_process")
-    public ResponseEntity<String> deleteProcess(@RequestParam("id") Long id) {
-		itemService.deleteItem(id);
+    public ResponseEntity<String> deleteProcess(@RequestParam("id") Long id, @RequestParam("imageUrl") String imageUrl) {
+		itemService.deleteItem(id, imageUrl);
 		
         return ResponseEntity.status(200).body("삭제완료");
     }
 	
-	@GetMapping("/presigned-url")
+	@GetMapping("/list/PresignedUrl")
 	@ResponseBody
 	public String getUrl(@RequestParam("filename") String filename) {        
         String presignedUrl = oracleStorageService.createPresignedUrl(filename);
         
         return presignedUrl;
+    }
+	
+	@DeleteMapping("/list/deleteObject")
+    public ResponseEntity<String> deleteObject(@RequestParam("imageUrl") String imageUrl) {
+        boolean deleted = oracleStorageService.deleteObject(imageUrl);
+
+        if (deleted) {
+            return ResponseEntity.ok("파일 삭제 성공: " + imageUrl);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("파일 삭제 실패: " + imageUrl);
+        }
     }
 }

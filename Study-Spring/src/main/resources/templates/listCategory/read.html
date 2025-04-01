@@ -43,7 +43,7 @@
 	
 	<div class="read">
 		<h4>상세페이지</h4>
-		<img src="https://placehold.co/300">
+		<img th:src="${item.imageUrl}">
 		<h4 th:text="${item.title}"></h4>
 		<p th:text="${item.price} + '원'"></p>
 		
@@ -52,7 +52,7 @@
 		</p>
 		
 		<p sec:authorize="hasAuthority('ROLE_ADMIN')">
-			<button class="btnDel" th:data-id="${item.id}">삭제</button>
+			<button class="btnDel" th:data-id="${item.id}" th:data-imageUrl="${item.imageUrl}">삭제</button>
 		</p>
 	</div>
 	
@@ -94,7 +94,8 @@
 	<script>
 		document.querySelector('.btnDel').addEventListener('click', (event) => {
 			const itemId = event.target.getAttribute('data-id');
-			fetch('/list/delete_process?id=' + itemId, {method : 'delete'})
+			const itemImageUrl = event.target.getAttribute('data-imageUrl');
+			fetch('/list/delete_process?id=' + itemId + '&imageUrl=' + encodeURIComponent(itemImageUrl), {method : 'delete'})
 				.then(res => res.text())
 				.then(data => {
 					window.location.href = '/list?page=1';

@@ -8,9 +8,13 @@
 <body>
 	<div th:replace="~{nav.html::navbar}"></div>
 
-	<form action="/list/update_process" method="post">
-		<div>
-			<input type="hidden" name="id" th:value="${item.id}">
+	<form id="updateForm" action="/list/update_process" method="post">
+		<input type="hidden" name="id" th:value="${item.id}">
+		<input type="hidden" name="created_by" th:value="${#authentication.principal.username}">
+<!-- 		<input type="hidden" name ="imageUrl" id="imageUrl"> -->
+		
+		<div style="display: flex; align-items: center; margin-bottom: 10px;">
+			<img id="fileInput" th:src="${item.imageUrl}" style="width: 300px; height: 300px;">
 		</div>
 		
 	    <div style="display: flex; align-items: center; margin-bottom: 10px;">
@@ -28,7 +32,69 @@
 	        <input name="count" th:value="${item.count}">
 	    </div>
 	    
-	    <button type="submit">수정</button>
+	    <div style="display: flex; align-items: center; margin-bottom: 10px;">
+	        <label for="count" style="width: 80px;">이미지</label>
+	    	<input type="file" id="fileInput" onchange="previewImage(this)">
+	    </div>
+	    
+	    <button type="submit" id="submitBtn">수정</button>
 	</form>
+	
+	<script>
+// 		document.getElementById("updateForm").addEventListener("submit", async function(event) {
+// 	        event.preventDefault();
+	        
+// 	        let fileInput = document.getElementById("fileInput");
+// 	        let submitBtn = document.getElementById("submitBtn");
+// 	        let file = fileInput.files[0];
+	        
+// 	        submitBtn.disabled = true; // 버튼 비활성화 (중복 클릭 방지)
+	        
+// 	        if (file) {	          
+// 	            let name = encodeURIComponent(file.name);
+// 	            try {
+// 	                let presignedUrl = await fetch(`/list/PresignedUrl?filename=${name}`);
+// 	                presignedUrl = await presignedUrl.text();
+	
+// 	                let res = await fetch(presignedUrl, {
+// 	                    method: "PUT",
+// 	                    headers: { "Content-Type": file.type },
+// 	                    body: file
+// 	                });
+	
+// 	                if (res.ok) {
+// 	                	let imageUrl = presignedUrl.replace(/\/p\/[^/]+\//, "/");
+// 	                    document.getElementById("imageUrl").value = imageUrl;
+// 	                } else {
+// 	                    alert("이미지 업로드에 실패했습니다.");
+// 	                    return;
+// 	                }
+// 	            } catch (error) {
+// 	                console.error(error);
+// 	                alert("오류가 발생했습니다.");
+// 	                submitBtn.disabled = false;
+// 	                return;
+// 	            }
+// 	        }
+	        
+// 	        submitBtn.disabled = false;
+// 	        this.submit();
+// 	    });
+	
+		function previewImage(e) {
+			const file = e.files[0]; // 업로드된 파일 가져오기
+		    const reader = new FileReader(); // FileReader 객체 생성
+		    
+		    // 파일이 로드되면 이미지 미리보기 설정
+		    reader.onload = function(e) {
+		        const imagePreview = document.getElementById("fileInput");
+		        imagePreview.src = e.target.result; // 미리보기 이미지 업데이트
+		    };
+
+		    if (file) {
+		        reader.readAsDataURL(file); // 파일을 DataURL로 읽기
+		    }
+		}
+	</script>
 </body>
 </html>

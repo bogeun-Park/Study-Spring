@@ -11,8 +11,9 @@
 	
 	<h2>상품 등록하기</h2>
 	
-	<form action="/list/create_process" method="post">
+	<form id="createForm" action="/list/create_process" method="post">
 		<input type="hidden" name="created_by" th:value="${#authentication.principal.username}">
+		<input type="hidden" name ="imageUrl" id="imageUrl">
 		
 	    <div style="display: flex; align-items: center; margin-bottom: 10px;">
 	        <label for="title" style="width: 100px;">추가할 상품</label>
@@ -29,28 +30,54 @@
 	        <input name="count">
 	    </div>
 	    
-	    <button type="submit">전송</button>
+	    <div style="display: flex; align-items: center; margin-bottom: 10px;">
+	        <label for="imageUrl" style="width: 100px;">상품이미지</label>
+	        <input type="file" id="fileInput">
+	    </div>
+	    
+	    <button type="submit" id="submitBtn">등록</button>
 	</form>
 	
-	<input type="file" onchange="getUrl(this)">
-	
 	<script>
-		async function getUrl(e) {
-			let name = encodeURIComponent(e.files[0].name);
-			let presigendUrl = await fetch('/presigned-url?filename=' + name);
-			presigendUrl = await presigendUrl.text();
-			
-			let res = await fetch(presigendUrl, {
-				method: 'PUT',
-			    headers: {
-			        'Content-Type': e.files[0].type // 파일 타입을 설정 (예: image/jpeg, application/pdf 등)
-			    },
-			    body: e.files[0]
-			})
-			
-			console.log(res);
-			console.log(res.url);
-		}
+		document.getElementById("createForm").addEventListener("submit", async function(event) {
+	        event.preventDefault();
+	        
+	        let fileInput = document.getElementById("fileInput");
+	        let submitBtn = document.getElementById("submitBtn");
+	        let file = fileInput.files[0];
+	        
+	        submitBtn.disabled = true; // 버튼 비활성화 (중복 클릭 방지)
+	        
+	        if (file) {	          
+	            let name = encodeURIComponent(file.name);
+	            try {
+	                let presignedUrl = await fetch(`/list/PresignedUrl?filename=${name}`);
+	                presignedUrl = await presignedUrl.text();
+
+	                let res = await fetch(presignedUrl, {
+	                    method: "PUT",
+	                    headers: { "Content-Type": file.type },
+	                    body: file
+	                });
+
+	                if (res.ok) {
+	                	let imageUrl = presignedUrl.replace(/\/p\/[^/]+\//, "/");
+	                    document.getElementById("imageUrl").value = imageUrl;
+	                } else {
+	                    alert("이미지 업로드에 실패했습니다.");
+	                    return;
+	                }
+	            } catch (error) {
+	                console.error(error);
+	                alert("오류가 발생했습니다.");
+	                submitBtn.disabled = false;
+	                return;
+	            }
+	        }
+	        
+	        submitBtn.disabled = false;
+	        this.submit();
+	    });
 	</script>
 </body>
 </html>
