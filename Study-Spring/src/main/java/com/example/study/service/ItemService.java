@@ -77,13 +77,16 @@ public class ItemService {
         itemRepository.save(item);
 	}
 	
+	@Transactional
 	public Long updateItem(Map<String, String> formData) {
 		String strId = formData.get("id");
         String title = formData.get("title");
         String created_by = formData.get("created_by");
         String strPrice = formData.get("price");
         String strCount = formData.get("count");
+        String preImageUrl = formData.get("preImageUrl");
         String imageUrl = formData.get("imageUrl");
+        String defaultImageUrl = "https://placehold.co/300";
 
         Long id = null;
         if (strId != null && !strId.isEmpty()) {
@@ -109,18 +112,29 @@ public class ItemService {
         }
         
         if (imageUrl == null || imageUrl.trim().isEmpty()) {
-            imageUrl = "https://placehold.co/300";
+            imageUrl = defaultImageUrl;
         }
-
-        Item item = new Item();
-        item.setId(id);
-        item.setTitle(title);
-        item.setCreated_by(created_by);
-        item.setPrice(price);
-        item.setCount(count);
-        item.setImageUrl(imageUrl);
         
-        itemRepository.save(item);
+        try {
+        	Item item = new Item();
+            item.setId(id);
+            item.setTitle(title);
+            item.setCreated_by(created_by);
+            item.setPrice(price);
+            item.setCount(count);
+            item.setImageUrl(imageUrl);
+            
+            itemRepository.save(item);
+        } catch(Exception e) {
+            throw new RuntimeException("아이템 수정 실패", e);
+        }
+        
+        if (!preImageUrl.equals(defaultImageUrl)) {
+            boolean imageDeleted = oracleStorageService.deleteObject(preImageUrl);
+            if (!imageDeleted) {
+                throw new RuntimeException("이미지 삭제 실패");
+            }
+        }
         
         return id;
 	}

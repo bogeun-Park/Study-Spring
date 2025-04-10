@@ -11,7 +11,8 @@
 	<form id="updateForm" action="/list/update_process" method="post">
 		<input type="hidden" name="id" th:value="${item.id}">
 		<input type="hidden" name="created_by" th:value="${#authentication.principal.username}">
-		<input type="hidden" name ="imageUrl" id="imageUrl">
+		<input type="hidden" name ="preImageUrl" id="preImageUrl" th:value="${item.imageUrl}">
+		<input type="hidden" name ="imageUrl" id="imageUrl">		
 		
 		<div style="display: flex; align-items: center; margin-bottom: 10px;">
 			<img id="imageInput" th:src="${item.imageUrl}" style="width: 300px; height: 300px;">
