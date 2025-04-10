@@ -83,6 +83,7 @@ public class ItemService {
         String created_by = formData.get("created_by");
         String strPrice = formData.get("price");
         String strCount = formData.get("count");
+        String imageUrl = formData.get("imageUrl");
 
         Long id = null;
         if (strId != null && !strId.isEmpty()) {
@@ -98,7 +99,6 @@ public class ItemService {
             }
         }
         
-        // count 값을 Integer로 변환
         Integer count = null;
         if (strCount != null && !strCount.isEmpty()) {
         	count = Integer.parseInt(strCount);
@@ -107,6 +107,10 @@ public class ItemService {
                 throw new IllegalArgumentException("재고량은 음수일 수 없습니다.");
             }
         }
+        
+        if (imageUrl == null || imageUrl.trim().isEmpty()) {
+            imageUrl = "https://placehold.co/300";
+        }
 
         Item item = new Item();
         item.setId(id);
@@ -114,6 +118,7 @@ public class ItemService {
         item.setCreated_by(created_by);
         item.setPrice(price);
         item.setCount(count);
+        item.setImageUrl(imageUrl);
         
         itemRepository.save(item);
         
